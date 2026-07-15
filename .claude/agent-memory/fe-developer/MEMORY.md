@@ -1,0 +1,2 @@
+- [Windows/Turbopack dev server quirks](env_windows_dev_server.md) — TaskStop doesn't kill Turbopack's child; verify port with netstat; curl is blocked, use Playwright MCP instead.
+- [Course PoC on bleeding-edge Next/shadcn/AI Elements](proj_next_shadcn_bleeding_edge.md) — shadcn 4.13 base/preset system, empty `form` registry item, AI Elements response/loader merges, @vitejs/plugin-react peer conflict, Tailwind v4 `@theme inline` derived-token vars, vitest has no `@/*` alias (breaks shadcn ui/* in tests), react-compiler `refs` lint rule vs RHF handleSubmit.

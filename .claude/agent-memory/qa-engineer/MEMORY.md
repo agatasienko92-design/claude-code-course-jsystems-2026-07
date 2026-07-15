@@ -1,0 +1,3 @@
+- [Course worktree phasing](project_course_worktree_phasing.md) — QA runs in dedicated `wt-qa*` worktrees/ports; phases add UI incrementally, don't test ahead of it.
+- [Synthetic image fixture technique](technique_synthetic_image_fixtures.md) — sharp+SVG for photos, noise+JPEG100 for oversized, base64 GIF89a for invalid-type; no mocked/fake files.
+- [Next.js PORT env behavior](reference_nextjs_port_env.md) — `next dev`/`start` read PORT from process env only (not `.env`); use Playwright `webServer.env`.
