@@ -34,9 +34,12 @@ Per AGENTS.md, for every feature step the delegated agent must:
 2. Run them, confirm they **fail for the expected reason**, note the failure in the task report.
 3. Implement the minimum to pass.
 4. Run scope verification: `npm test` + `npm run lint` + `npm run build` (in `app/`).
-5. Commit with the prescribed message format (`Backend:` / `Frontend:` / `QA:`).
+5. **Manual QA validation (mandatory when the step affects runtime/UI behavior, per AGENTS.md TDD step 7):** start the dev server on the worktree's assigned port and drive the affected flow with **Playwright MCP or Playwright CLI** — open the screen, fill the form, submit, follow the flow. Screenshot each step and compare against the Play reference screens in `assets/` + `docs/design-guidelines.md` (CTX-DESIGN). Automated tests can false-pass; nothing ships unseen. Backend-only steps with no UI yet satisfy this by exercising the running endpoint (e.g. a real request against `npm run dev`).
+6. Commit with the prescribed message format (`Backend:` / `Frontend:` / `QA:`).
 
-Exception: pure scaffold/config steps (Phase 0) have no unit-testable behavior; their verification is `npm run lint` + `npm run build` + app boots (`npm run dev` responds on `/`).
+Exception: pure scaffold/config steps (Phase 0) have no unit-testable behavior; their verification is `npm run lint` + `npm run build` + app boots (`npm run dev` responds on `/`) + a Playwright screenshot of the rendered page compared against the Play reference.
+
+**Sync-point gate (M0–M5):** after every phase merge, before declaring the milestone done, the orchestrator (or a delegated qa-engineer task) runs a manual Playwright walkthrough of the merged app on `moja-praca`: open the app, complete the currently implemented flow, screenshot, compare visuals to the Play reference screens in `assets/`. A milestone with a failing or unverified walkthrough is not passed — defects become fix micro-tasks before the next phase starts.
 
 ### 1.4 Delegation prompt template (what the orchestrator sends per task)
 
@@ -49,10 +52,12 @@ ALLOWED PATHS  – exact files/dirs you may create/modify; touching anything els
 SPEC EXCERPT   – the exact PRD ACs / ADR sections / data contracts pasted or referenced by §
 INTERFACES     – exact type/field names from ADR-001 §4 that this task must consume/expose
 TDD            – the tests to write first, expected failure mode
-VERIFY         – commands that must pass before commit
+VERIFY         – commands that must pass before commit + the manual Playwright
+                 walkthrough (screenshots vs Play reference) when runtime/UI is affected
 COMMIT         – message format + granularity (one commit per step)
 DO NOT         – install deps, touch docs/, push, modify files outside ALLOWED PATHS, print env secrets
-REPORT BACK    – files changed, test results (before/after), commit hash, deviations
+REPORT BACK    – files changed, test results (before/after), manual-validation result
+                 (what was clicked, screenshots taken, visual match verdict), commit hash, deviations
 ```
 
 ### 1.5 Standing context bundles (referenced by task cards)

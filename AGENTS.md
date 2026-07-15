@@ -56,6 +56,7 @@ For every feature and bug fix:
 4. Implement the minimum code needed to make them pass.
 5. Run the full verification suite for the changed scope.
 6. Refactor only while tests stay green.
+7. **Manual QA validation (final step, mandatory whenever the change affects runtime/UI behavior):** start the app and drive it manually with **Playwright MCP or the Playwright CLI** — open the affected screen, fill the form, submit, and walk the real flow end to end. Take screenshots at each step and compare them against the reference Play screens in `assets/` and `docs/design-guidelines.md`. Automated E2E tests are less trustworthy and can produce false passes — a change is not done until it has been *seen* working. Report any visual or behavioral mismatch as a defect instead of committing over it.
 
 If the area has no suitable test infrastructure yet, add it as part of the task — do not silently skip tests.
 
@@ -77,7 +78,7 @@ Verify only the scope relevant to your change. If the change affects runtime beh
 | Integration | Only external LLM API | be-dev |
 | E2E | NOTHING (real stack) | qa-engineer |
 
-**Verification:** Always start the app before committing. Tests passing ≠ app working.
+**Verification:** Always start the app before committing. Tests passing ≠ app working. For runtime/UI changes this means the manual Playwright walkthrough from TDD step 7 — screenshots included — not just a green test run.
 
 **Env Vars:** See `.env.example` (OPENROUTER_API_KEY required)
 
