@@ -92,7 +92,7 @@ All models are conceptual; exact field naming is fixed in ADR-001 §4 so fronten
 
 - **CaseForm** — request type (`complaint` | `return`), equipment category (enum from PRD AC-02), model name (string), purchase date (ISO date, not future), reason (string; required for complaints), image (file: JPEG/PNG/WebP ≤ 10 MB). Lives: client form state; sent once to `/api/analyze` as multipart.
 - **ImageAnalysis** — structured description produced by the vision model: whether damage/usage signs are visible, damage type, probable cause class (complaint) or resellability assessment (return), plus a mismatch flag when the photo does not show the declared equipment. Lives: returned by `/api/analyze`, then held in client memory and echoed to `/api/chat` in every request.
-- **CaseContext** — CaseForm fields (minus the raw image) + ImageAnalysis + a client-generated case ID + a downscaled preview (data URL) for the summary panel. Lives: client memory only; lost on refresh (per PRD).
+- **CaseContext** — CaseForm fields (minus the raw image) + ImageAnalysis + a client-generated case ID (binding field definition in ADR-001 §4 — no image data). The image preview for the summary panel is held separately on the client as an object URL/data URL (ADR-002) and is never part of CaseContext. Lives: client memory only; lost on refresh (per PRD).
 - **Decision** — one of `APPROVED` | `REJECTED` | `NEEDS_MORE_INFO` | `ESCALATE`, extracted from the agent message via the marker protocol. Lives: derived on the client from message text; the latest marker in the conversation is the current decision.
 - **Chat messages** — AI SDK `UIMessage` list managed by `useChat`. Lives: client memory only.
 

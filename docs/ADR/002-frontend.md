@@ -39,6 +39,17 @@ Does NOT cover: route handler internals, prompts, policies (ADR-001); stack rati
 5. Install runtime deps: `ai`, `@ai-sdk/react`, `@openrouter/ai-sdk-provider`, `sharp`, `zod`; dev deps: `vitest`, `@vitejs/plugin-react`, `@playwright/test`.
 6. Copy `.env.example` → `.env` (developer supplies real key; `.env` stays gitignored).
 
+### Design system (Play brand)
+
+The UI applies the design system extracted from play.pl: tokens in `assets/design-tokens.json`, usage rules in `docs/design-guidelines.md`. During step 3 of the initialization sequence, map the tokens onto the Tailwind/shadcn theme (CSS variables in `globals.css`):
+
+- **Colors:** primary `#6C43BF` (purple — every actionable element: buttons, active states, focus rings), accent `#E6144B` (pink — highlights/badges only, never actions), links `#266DD9`, text `#1F1F1F` / secondary `#707070`, backgrounds `#FFFFFF` / `#F5F5F5`, borders `#D6D6D6`.
+- **Typography:** Manrope (weights 500/600/700; 500 is the body default) with Arial/sans-serif fallback.
+- **Radii:** 6px controls (buttons, inputs), 12px cards/panels, 3px small badges.
+- **Rules:** purple = action, pink = promotion/highlight — never swapped; buttons are never blue; links are blue without underline.
+
+The four decision-banner variants may use semantic status colors (success/danger/warning/neutral) for recognizability, but their geometry (12px radius cards, badge styling) and all surrounding chrome follow these tokens.
+
 ### View shell — state machine
 
 A single page holds an explicit client state machine (React state; no router navigation needed):
