@@ -90,7 +90,8 @@
       "Bash(docker-compose down:*)",
 
       "Read(.env)",
-      "Read(.env.*)",
+      "Read(.env.local)",
+      "Read(.env.prod)",
       "Read(**/.env)",
       "Read(**/secrets/**)"
     ]
