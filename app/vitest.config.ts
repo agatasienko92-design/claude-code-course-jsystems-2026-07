@@ -1,3 +1,4 @@
+import path from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
@@ -8,6 +9,13 @@ import { defineConfig } from "vitest/config";
 // docblock at the top of the file.
 export default defineConfig({
   plugins: [react()],
+  // Mirror the `@/*` -> `src/*` alias from tsconfig.json so component tests can
+  // import shadcn/ui and AI Elements primitives (which use `@/lib/utils` etc.).
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "./src"),
+    },
+  },
   test: {
     environment: "jsdom",
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
